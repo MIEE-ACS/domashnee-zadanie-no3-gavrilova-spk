@@ -25,20 +25,6 @@ namespace Atbash
             this.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
         }
 
-        static int Check_mod2(string str, int n)
-        {
-            int count = 0;
-            for (int i = 0; i < str.Length; i++)
-            {
-                if (str[n] == str[i])
-                    count++;
-            }
-            if (count / 2 != 0)
-                return 1;
-            else
-                return 2;
-        }
-
         private void Btm_Start_Click(object sender, RoutedEventArgs e)
         {
             string str = tbl_Get.Text;
@@ -56,9 +42,16 @@ namespace Atbash
                             //str = str.Replace(str[i], (char)(90 - ((int)str[i] - 65)));       //меняет все подобные символы в строке( если четное количество одной буквы меняет дважды, так что буква в итоге не меняется)
                             text[i] = (char)(90 - ((int)text[i] - 65));             //меняет символ исходя из кода символа
                         }
-                        else if (str[i] >= 'А' && str[i] <= 'Я')
+                        else if (str[i] >= 'А' && str[i] <= 'Я' || text[i] == 'Ё')
                         {
-                            text[i] = (char)(1071 - ((int)text[i] - 1040));
+                            if (text[i] == 'Ё')
+                                text[i] = 'Щ';
+                            else if (text[i] == 'Щ')
+                                text[i] = 'Ё';
+                            else if ( ((int)text[i] < 1046 || (int)text[i] > 1065) && text[i] != 'Ё')
+                                text[i] = (char)(1071 - ((int)text[i] - 1040));
+                            else
+                                text[i] = (char)(1071 - ((int)text[i] - 1040) - 1);
                         }
                     }
                     else
@@ -67,9 +60,17 @@ namespace Atbash
                         {
                             text[i] = (char)(122 - ((int)text[i] - 97));
                         }
-                        else if (str[i] >= 'а' && str[i] <= 'я')
+                        else if (str[i] >= 'а' && str[i] <= 'я'  || text[i] == 'ё')
                         {
-                            text[i] = (char)(1103 - ((int)text[i] - 1072));
+                           // text[i] = (char)(1103 - ((int)text[i] - 1072));
+                            if ((int)text[i] < 1078 || (int)text[i] > 1097 && text[i] != 'ё')
+                                text[i] = (char)(1103 - ((int)text[i] - 1072));
+                            else if (text[i] == 'ё')
+                                text[i] = 'щ';
+                            else if (text[i] == 'щ')
+                                text[i] = 'ё';
+                            else
+                                text[i] = (char)(1103 - ((int)text[i] - 1072) - 1);
                         }
                     }
                 }
